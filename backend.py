@@ -1,14 +1,13 @@
 from http.server import HTTPServer, SimpleHTTPRequestHandler
-import os
 
-# Serve files from the working directory (where Dockerfile sets WORKDIR).
-os.chdir(os.path.dirname(__file__) or "./")
+ip = "0.0.0.0"
+port = 8000
+server_address = (ip, port)
 
-class Handler(SimpleHTTPRequestHandler):
-    pass
+api = HTTPServer(
+    server_address=server_address,
+    RequestHandlerClass=SimpleHTTPRequestHandler,
+)
 
-if __name__ == "__main__":
-    addr = ("0.0.0.0", 8080)
-    httpd = HTTPServer(addr, Handler)
-    print(f"Serving on {addr[0]}:{addr[1]}")
-    httpd.serve_forever()
+print("Listening for HTTP requests...")
+api.serve_forever()
